@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgis/postgis:14-3.2-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - internal-network
+  backend:
+    image: demo/demo:0.0.1
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PWD=postgres
+    networks:
+      - internal-network
+    restart: on-failure:10
+
+volumes:
+  db:
+    driver: local
+
+networks:
+  internal-network:
+    driver: bridge

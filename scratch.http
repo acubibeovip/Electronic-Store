@@ -1,0 +1,61 @@
+### Variables
+@customerId = 1
+@productId = 1
+### Admin - Create new customer
+POST http://localhost:8080/admin/customers
+Content-Type: application/json
+
+{
+  "name": "Alice Smith",
+  "email": "alice@example.com"
+}
+
+### Admin - Get all customers
+GET http://localhost:8080/admin/customers
+
+
+### Admin - Create a new product
+POST http://localhost:8080/admin/products
+Content-Type: application/json
+
+{
+  "name": "Wireless Mouse",
+  "category": "Electronics",
+  "price": 29.99,
+  "stock": 10
+}
+
+### Admin - Remove a product
+DELETE http://localhost:8080/admin/products/{{productId}}
+
+### Admin - Get All Products (pagination)
+GET http://localhost:8080/admin/products
+Content-Type: application/json
+
+### Admin - Create deal
+POST http://localhost:8080/admin/deals
+Content-Type: application/json
+
+{
+  "productIds": [2],
+  "discount": 50,
+  "expiration": "2025-07-30T23:59:00"
+}
+
+### Customer - Get filtered Products category, price range, or availability
+GET http://localhost:8080/customer/products?category=Electronics&minPrice=0&maxPrice=100
+
+### Customer - Add Product to Basket
+POST http://localhost:8080/customer/{{customerId}}/items
+Content-Type: application/json
+
+{
+  "productId": 2,
+  "quantity": 2
+}
+
+### Customer - Get receipt
+GET http://localhost:8080/customer/receipt/{{customerId}}
+
+
+
